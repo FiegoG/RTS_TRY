@@ -112,6 +112,29 @@ public class UnitSelectionManager : MonoBehaviour
                 attackCursorVisible = false;
             }
         }
+
+        CursorSelector();
+    }
+
+    private void CursorSelector()
+    {
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, clickable))
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.Selectable);
+        } else if (Physics.Raycast(ray, out hit, Mathf.Infinity, attackable)
+            && unitSelected.Count > 0 && AtLeastOneOffensiveUnit(unitSelected))
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.Attackable);
+        } else if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground) && unitSelected.Count > 0)
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.Walkable);
+        } else
+        {
+            CursorManager.Instance.SetMarkerType(CursorManager.CursorType.None);
+        }
     }
 
     private bool AtLeastOneOffensiveUnit(List<GameObject> unitSelected)

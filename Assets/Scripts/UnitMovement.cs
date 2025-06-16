@@ -9,16 +9,20 @@ public class UnitMovement : MonoBehaviour
 
     public bool isCommandToMove;
 
+    DirectionIndicator directionIndicator;
+
 
     void Start()
     {
         cam = Camera.main;
         agent = GetComponent<NavMeshAgent>();
+
+        directionIndicator = GetComponent<DirectionIndicator>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && UnitSelectionManager.Instance.unitSelected.Contains(gameObject))
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -26,7 +30,9 @@ public class UnitMovement : MonoBehaviour
             {
                 isCommandToMove = true;
                 agent.SetDestination(hit.point);
-                
+
+                directionIndicator.DrawLine(hit);
+
             }
         }
 

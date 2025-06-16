@@ -9,6 +9,7 @@ public class UnitMovement : MonoBehaviour
 
     public bool isCommandToMove;
 
+
     void Start()
     {
         cam = Camera.main;
@@ -25,12 +26,14 @@ public class UnitMovement : MonoBehaviour
             {
                 isCommandToMove = true;
                 agent.SetDestination(hit.point);
+                
             }
         }
 
         if (agent.hasPath == false || agent.remainingDistance <= agent.stoppingDistance)
         {
             isCommandToMove = false;
+            
         }
     }
 }
